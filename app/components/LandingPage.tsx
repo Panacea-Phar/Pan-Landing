@@ -277,7 +277,7 @@ export default function LandingPage(): React.JSX.Element {
                                 Get Started Today
                             </Link>
                             <Link
-                                href="#demo"
+                                href="/sales"
                                 className="text-base font-semibold leading-6 text-white hover:text-emerald-100 transition-colors duration-200"
                             >
                                 Schedule Demo <span aria-hidden="true">→</span>
@@ -295,19 +295,19 @@ export default function LandingPage(): React.JSX.Element {
                 <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700">
+                            {/*<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700">
                                 <span className="text-xs font-bold text-white">
                                     P
                                 </span>
-                            </div>
-                            <div>
+                            </div>*/}
+                            {/*<div>
                                 <div className="text-sm font-semibold text-slate-900">
                                     Panacea
                                 </div>
                                 <div className="text-xs text-slate-500">
                                     © {new Date().getFullYear()} PanAI, Inc.
                                 </div>
-                            </div>
+                            </div>*/}
                         </div>
 
                         <div className="flex space-x-6">

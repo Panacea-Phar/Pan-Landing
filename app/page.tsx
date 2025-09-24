@@ -1,9 +1,7 @@
 import LandingPage from "./components/LandingPage";
-import SalesForm from "./components/SalesForm";
 
 export default function Page() {
-  return <LandingPage />;
-  return <SalesForm />;
+    return <LandingPage />;
 }
 
 // import Image from "next/image";
