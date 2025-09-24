@@ -284,7 +284,7 @@ export default function LandingPage(): React.JSX.Element {
                             </Link>
                         </div>
                         <p className="mt-6 text-sm text-emerald-200">
-                            Free 30-day trial • No setup fees • Cancel anytime
+                            Free 30-day trial • No setup fees • Cancel anytimes
                         </p>
                     </div>
                 </div>
