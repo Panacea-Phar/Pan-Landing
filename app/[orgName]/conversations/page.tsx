@@ -4,6 +4,7 @@ import React, { useState, use, useEffect } from "react";
 import { useAuth } from "@/app/contexts/AuthContext";
 import AuthGuard from "@/app/components/auth/AuthGuard";
 import { apiFetch } from "@/app/utils/api";
+import { useRouter, useParams } from "next/navigation";
 
 interface Conversation {
     id: string;
@@ -39,16 +40,16 @@ interface Fulfillment {
     }>;
 }
 
-interface ConversationsPageProps {
-    params: {
-        orgName: string;
-    };
-}
+export default function ConversationsPage() {
+    const router = useRouter();
+    const params = useParams();
 
-export default function ConversationsPage({ params }: ConversationsPageProps) {
-    const { orgName } = use(params);
+    const orgName = params?.orgName as string;
+
     const { organization } = useAuth();
-    const [activeTab, setActiveTab] = useState<"conversations" | "fulfillments">("conversations");
+    const [activeTab, setActiveTab] = useState<
+        "conversations" | "fulfillments"
+    >("conversations");
     const [conversations, setConversations] = useState<Conversation[]>([]);
     const [fulfillments, setFulfillments] = useState<Fulfillment[]>([]);
     const [loading, setLoading] = useState(true);
@@ -91,8 +92,8 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
                         patient: {
                             name: "John Doe",
                             email: "john@example.com",
-                            phone: "+1234567890"
-                        }
+                            phone: "+1234567890",
+                        },
                     },
                     {
                         id: "2",
@@ -103,9 +104,9 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
                         fulfillment_type: "PRESCRIPTION",
                         patient: {
                             name: "Jane Smith",
-                            email: "jane@example.com"
-                        }
-                    }
+                            email: "jane@example.com",
+                        },
+                    },
                 ]);
             } else {
                 setFulfillments([
@@ -117,18 +118,20 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
                         priority: "medium",
                         patient: {
                             name: "John Doe",
-                            email: "john@example.com"
+                            email: "john@example.com",
                         },
                         conversation: {
-                            caller_phone: "+1234567890"
+                            caller_phone: "+1234567890",
                         },
                         statuses: [
                             {
                                 status: "PENDING",
-                                timestamp: new Date(Date.now() - 600000).toISOString()
-                            }
-                        ]
-                    }
+                                timestamp: new Date(
+                                    Date.now() - 600000,
+                                ).toISOString(),
+                            },
+                        ],
+                    },
                 ]);
             }
         } finally {
@@ -139,11 +142,14 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
     const formatTime = (timestamp: string) => {
         const date = new Date(timestamp);
         const now = new Date();
-        const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+        const diffInMinutes = Math.floor(
+            (now.getTime() - date.getTime()) / (1000 * 60),
+        );
 
         if (diffInMinutes < 1) return "Just now";
         if (diffInMinutes < 60) return `${diffInMinutes}m ago`;
-        if (diffInMinutes < 1440) return `${Math.floor(diffInMinutes / 60)}h ago`;
+        if (diffInMinutes < 1440)
+            return `${Math.floor(diffInMinutes / 60)}h ago`;
         return date.toLocaleDateString();
     };
 
@@ -181,7 +187,8 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
                             Patient Interactions
                         </h1>
                         <p className="text-slate-600 mt-2">
-                            Monitor active conversations and fulfillment requests for {organization?.name || orgName}
+                            Monitor active conversations and fulfillment
+                            requests for {organization?.name || orgName}
                         </p>
                     </div>
 
@@ -197,8 +204,18 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
                                 }`}
                             >
                                 <div className="flex items-center space-x-2">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                    <svg
+                                        className="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                                        />
                                     </svg>
                                     <span>Active Conversations</span>
                                     {conversations.length > 0 && (
@@ -217,8 +234,18 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
                                 }`}
                             >
                                 <div className="flex items-center space-x-2">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                    <svg
+                                        className="w-5 h-5"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                                        />
                                     </svg>
                                     <span>Fulfillment Requests</span>
                                     {fulfillments.length > 0 && (
@@ -235,8 +262,16 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
                     {error && (
                         <div className="mb-6 bg-red-50 border border-red-200 rounded-2xl p-4">
                             <div className="flex">
-                                <svg className="w-5 h-5 text-red-400 mr-2 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                                <svg
+                                    className="w-5 h-5 text-red-400 mr-2 mt-0.5 flex-shrink-0"
+                                    fill="currentColor"
+                                    viewBox="0 0 20 20"
+                                >
+                                    <path
+                                        fillRule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                                        clipRule="evenodd"
+                                    />
                                 </svg>
                                 <p className="text-sm text-red-700">{error}</p>
                             </div>
@@ -247,7 +282,9 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
                     {loading ? (
                         <div className="flex items-center justify-center py-12">
                             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
-                            <span className="ml-2 text-slate-600">Loading {activeTab}...</span>
+                            <span className="ml-2 text-slate-600">
+                                Loading {activeTab}...
+                            </span>
                         </div>
                     ) : (
                         <>
@@ -256,44 +293,112 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
                                 <div className="space-y-4">
                                     {conversations.length === 0 ? (
                                         <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
-                                            <svg className="w-12 h-12 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                            <svg
+                                                className="w-12 h-12 text-slate-400 mx-auto mb-4"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+                                                />
                                             </svg>
-                                            <h3 className="text-lg font-medium text-slate-900 mb-2">No active conversations</h3>
-                                            <p className="text-slate-600">All quiet! No patient calls at the moment.</p>
+                                            <h3 className="text-lg font-medium text-slate-900 mb-2">
+                                                No active conversations
+                                            </h3>
+                                            <p className="text-slate-600">
+                                                All quiet! No patient calls at
+                                                the moment.
+                                            </p>
                                         </div>
                                     ) : (
                                         conversations.map((conversation) => (
-                                            <div key={conversation.id} className="bg-white rounded-2xl border border-slate-200 p-6 hover:shadow-md transition-shadow duration-300">
+                                            <div
+                                                key={conversation.id}
+                                                className="bg-white rounded-2xl border border-slate-200 p-6 hover:shadow-md transition-shadow duration-300"
+                                            >
                                                 <div className="flex items-start justify-between">
                                                     <div className="flex-1">
                                                         <div className="flex items-start space-x-4">
                                                             <div className="p-3 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl">
-                                                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                                                                <svg
+                                                                    className="w-6 h-6 text-white"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    viewBox="0 0 24 24"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        strokeWidth={
+                                                                            2
+                                                                        }
+                                                                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                                                                    />
                                                                 </svg>
                                                             </div>
                                                             <div className="flex-1">
                                                                 <div className="flex items-center justify-between mb-2">
                                                                     <h3 className="text-lg font-semibold text-slate-900">
-                                                                        {conversation.patient?.name || "Unknown Patient"}
+                                                                        {conversation
+                                                                            .patient
+                                                                            ?.name ||
+                                                                            "Unknown Patient"}
                                                                     </h3>
                                                                     <div className="flex items-center space-x-2">
-                                                                        <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getPriorityColor(conversation.priority)}`}>
-                                                                            {conversation.priority.charAt(0).toUpperCase() + conversation.priority.slice(1)} Priority
+                                                                        <span
+                                                                            className={`px-3 py-1 rounded-full text-xs font-medium border ${getPriorityColor(conversation.priority)}`}
+                                                                        >
+                                                                            {conversation.priority
+                                                                                .charAt(
+                                                                                    0,
+                                                                                )
+                                                                                .toUpperCase() +
+                                                                                conversation.priority.slice(
+                                                                                    1,
+                                                                                )}{" "}
+                                                                            Priority
                                                                         </span>
-                                                                        <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getTypeColor(conversation.fulfillment_type)}`}>
-                                                                            {conversation.fulfillment_type}
+                                                                        <span
+                                                                            className={`px-3 py-1 rounded-full text-xs font-medium border ${getTypeColor(conversation.fulfillment_type)}`}
+                                                                        >
+                                                                            {
+                                                                                conversation.fulfillment_type
+                                                                            }
                                                                         </span>
                                                                     </div>
                                                                 </div>
-                                                                <p className="text-slate-600 mb-3 font-medium">{conversation.medication_s}</p>
+                                                                <p className="text-slate-600 mb-3 font-medium">
+                                                                    {
+                                                                        conversation.medication_s
+                                                                    }
+                                                                </p>
                                                                 <div className="flex items-center justify-between text-sm text-slate-500">
                                                                     <div className="flex items-center space-x-4">
-                                                                        <span>📞 {conversation.caller_phone}</span>
-                                                                        <span>✉️ {conversation.patient?.email}</span>
+                                                                        <span>
+                                                                            📞{" "}
+                                                                            {
+                                                                                conversation.caller_phone
+                                                                            }
+                                                                        </span>
+                                                                        <span>
+                                                                            ✉️{" "}
+                                                                            {
+                                                                                conversation
+                                                                                    .patient
+                                                                                    ?.email
+                                                                            }
+                                                                        </span>
                                                                     </div>
-                                                                    <span>Called {formatTime(conversation.call_in_at)}</span>
+                                                                    <span>
+                                                                        Called{" "}
+                                                                        {formatTime(
+                                                                            conversation.call_in_at,
+                                                                        )}
+                                                                    </span>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -321,53 +426,135 @@ export default function ConversationsPage({ params }: ConversationsPageProps) {
                                 <div className="space-y-4">
                                     {fulfillments.length === 0 ? (
                                         <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
-                                            <svg className="w-12 h-12 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                                            <svg
+                                                className="w-12 h-12 text-slate-400 mx-auto mb-4"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth={2}
+                                                    d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+                                                />
                                             </svg>
-                                            <h3 className="text-lg font-medium text-slate-900 mb-2">No pending fulfillments</h3>
-                                            <p className="text-slate-600">All fulfillment requests have been completed!</p>
+                                            <h3 className="text-lg font-medium text-slate-900 mb-2">
+                                                No pending fulfillments
+                                            </h3>
+                                            <p className="text-slate-600">
+                                                All fulfillment requests have
+                                                been completed!
+                                            </p>
                                         </div>
                                     ) : (
                                         fulfillments.map((fulfillment) => (
-                                            <div key={fulfillment.id} className="bg-white rounded-2xl border border-slate-200 p-6 hover:shadow-md transition-shadow duration-300">
+                                            <div
+                                                key={fulfillment.id}
+                                                className="bg-white rounded-2xl border border-slate-200 p-6 hover:shadow-md transition-shadow duration-300"
+                                            >
                                                 <div className="flex items-start justify-between">
                                                     <div className="flex-1">
                                                         <div className="flex items-start space-x-4">
                                                             <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl">
-                                                                <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                                                <svg
+                                                                    className="w-6 h-6 text-white"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    viewBox="0 0 24 24"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        strokeWidth={
+                                                                            2
+                                                                        }
+                                                                        d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
+                                                                    />
                                                                 </svg>
                                                             </div>
                                                             <div className="flex-1">
                                                                 <div className="flex items-center justify-between mb-2">
                                                                     <h3 className="text-lg font-semibold text-slate-900">
-                                                                        {fulfillment.patient?.name || "Unknown Patient"}
+                                                                        {fulfillment
+                                                                            .patient
+                                                                            ?.name ||
+                                                                            "Unknown Patient"}
                                                                     </h3>
                                                                     <div className="flex items-center space-x-2">
-                                                                        <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getPriorityColor(fulfillment.priority)}`}>
-                                                                            {fulfillment.priority.charAt(0).toUpperCase() + fulfillment.priority.slice(1)} Priority
+                                                                        <span
+                                                                            className={`px-3 py-1 rounded-full text-xs font-medium border ${getPriorityColor(fulfillment.priority)}`}
+                                                                        >
+                                                                            {fulfillment.priority
+                                                                                .charAt(
+                                                                                    0,
+                                                                                )
+                                                                                .toUpperCase() +
+                                                                                fulfillment.priority.slice(
+                                                                                    1,
+                                                                                )}{" "}
+                                                                            Priority
                                                                         </span>
-                                                                        <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getTypeColor(fulfillment.fulfillment_type)}`}>
-                                                                            {fulfillment.fulfillment_type}
+                                                                        <span
+                                                                            className={`px-3 py-1 rounded-full text-xs font-medium border ${getTypeColor(fulfillment.fulfillment_type)}`}
+                                                                        >
+                                                                            {
+                                                                                fulfillment.fulfillment_type
+                                                                            }
                                                                         </span>
                                                                         <span className="px-3 py-1 rounded-full text-xs font-medium border bg-orange-100 text-orange-800 border-orange-200">
-                                                                            {fulfillment.statuses[0]?.status || "PENDING"}
+                                                                            {fulfillment
+                                                                                .statuses[0]
+                                                                                ?.status ||
+                                                                                "PENDING"}
                                                                         </span>
                                                                     </div>
                                                                 </div>
-                                                                <p className="text-slate-600 mb-2 font-medium">{fulfillment.medication}</p>
+                                                                <p className="text-slate-600 mb-2 font-medium">
+                                                                    {
+                                                                        fulfillment.medication
+                                                                    }
+                                                                </p>
                                                                 {fulfillment.description && (
-                                                                    <p className="text-slate-500 text-sm mb-3">{fulfillment.description}</p>
+                                                                    <p className="text-slate-500 text-sm mb-3">
+                                                                        {
+                                                                            fulfillment.description
+                                                                        }
+                                                                    </p>
                                                                 )}
                                                                 <div className="flex items-center justify-between text-sm text-slate-500">
                                                                     <div className="flex items-center space-x-4">
-                                                                        {fulfillment.conversation?.caller_phone && (
-                                                                            <span>📞 {fulfillment.conversation.caller_phone}</span>
+                                                                        {fulfillment
+                                                                            .conversation
+                                                                            ?.caller_phone && (
+                                                                            <span>
+                                                                                📞{" "}
+                                                                                {
+                                                                                    fulfillment
+                                                                                        .conversation
+                                                                                        .caller_phone
+                                                                                }
+                                                                            </span>
                                                                         )}
-                                                                        <span>✉️ {fulfillment.patient?.email}</span>
+                                                                        <span>
+                                                                            ✉️{" "}
+                                                                            {
+                                                                                fulfillment
+                                                                                    .patient
+                                                                                    ?.email
+                                                                            }
+                                                                        </span>
                                                                     </div>
-                                                                    {fulfillment.statuses[0] && (
-                                                                        <span>Updated {formatTime(fulfillment.statuses[0].timestamp)}</span>
+                                                                    {fulfillment
+                                                                        .statuses[0] && (
+                                                                        <span>
+                                                                            Updated{" "}
+                                                                            {formatTime(
+                                                                                fulfillment
+                                                                                    .statuses[0]
+                                                                                    .timestamp,
+                                                                            )}
+                                                                        </span>
                                                                     )}
                                                                 </div>
                                                             </div>
