@@ -4,6 +4,7 @@ import React, { useState, use, useEffect } from "react";
 import { useAuth } from "@/app/contexts/AuthContext";
 import AuthGuard from "@/app/components/auth/AuthGuard";
 import { apiFetch } from "@/app/utils/api";
+import { useRouter, useParams } from "next/navigation";
 
 interface SettingsPageProps {
     params: {
@@ -38,8 +39,11 @@ interface Member {
     created_at: string;
 }
 
-export default function SettingsPage({ params }: SettingsPageProps) {
-    const { orgName } = use(params);
+export default function SettingsPage() {
+    // const router = useRouter();
+    const params = useParams();
+    const orgName = params?.orgName as string;
+
     const { user, organization, membership } = useAuth();
     const [activeTab, setActiveTab] = useState("organization");
     const [loading, setLoading] = useState(false);
