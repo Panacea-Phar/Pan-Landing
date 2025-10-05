@@ -125,12 +125,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
             // Fetch user profile and membership info
             const queryParams = new URLSearchParams({ org_name: orgName });
-            const membershipResponse = await apiFetch<{ members: any[] }>(
-                `/api/auth/members/?${queryParams}`,
-                {
-                    method: "GET",
-                },
-            );
+            const membershipResponse = await apiFetch<{
+                members: Membership[];
+            }>(`/api/auth/members/?${queryParams}`, {
+                method: "GET",
+            });
             const settingsResponse = await apiFetch<{ settings: Organization }>(
                 `/api/auth/settings/?${queryParams}`,
                 {

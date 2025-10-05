@@ -50,7 +50,8 @@ export default function UnauthorizedPage({ params }: UnauthorizedPageProps) {
                             Access Denied
                         </h1>
                         <p className="text-gray-600 mb-6">
-                            You don't have the required permissions to access this page.
+                            You dont have the required permissions to access
+                            this page.
                         </p>
 
                         {user && membership && (
@@ -75,7 +76,8 @@ export default function UnauthorizedPage({ params }: UnauthorizedPageProps) {
                                             </span>
                                         </p>
                                         <p className="text-xs text-yellow-600 mt-1">
-                                            Contact an administrator to request access to this feature.
+                                            Contact an administrator to request
+                                            access to this feature.
                                         </p>
                                     </div>
                                 </div>
@@ -126,7 +128,9 @@ export default function UnauthorizedPage({ params }: UnauthorizedPageProps) {
 
                         <div className="mt-8 pt-6 border-t border-gray-200">
                             <p className="text-xs text-gray-500">
-                                Need help? Contact your system administrator or check the user guide for more information about user roles and permissions.
+                                Need help? Contact your system administrator or
+                                check the user guide for more information about
+                                user roles and permissions.
                             </p>
                         </div>
                     </div>

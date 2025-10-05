@@ -540,7 +540,7 @@ export default function SettingsPage({ params }: SettingsPageProps) {
                                         {!isAdmin && (
                                             <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                                                 <p className="text-sm text-yellow-800">
-                                                    You don't have permission to
+                                                    You dont have permission to
                                                     edit organization settings.
                                                     Contact an administrator to
                                                     make changes.
