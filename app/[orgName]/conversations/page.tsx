@@ -41,7 +41,7 @@ interface Fulfillment {
 }
 
 export default function ConversationsPage() {
-    // const router = useRouter();
+    const router = useRouter();
     const params = useParams();
 
     const orgName = params?.orgName as string;
