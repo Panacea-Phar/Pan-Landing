@@ -1,7 +1,7 @@
 "use client";
 
 import React, { use } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useAuth } from "@/app/contexts/AuthContext";
 
 interface UnauthorizedPageProps {
@@ -10,8 +10,10 @@ interface UnauthorizedPageProps {
     };
 }
 
-export default function UnauthorizedPage({ params }: UnauthorizedPageProps) {
-    const { orgName } = use(params);
+export default function UnauthorizedPage() {
+    const params = useParams();
+
+    const orgName = params?.orgName as string;
     const { user, membership, logout } = useAuth();
     const router = useRouter();
 

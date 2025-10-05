@@ -2,7 +2,7 @@
 
 import React, { useState, use, useEffect } from "react";
 import { useAuth } from "@/app/contexts/AuthContext";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 interface LoginPageProps {
     params: {
@@ -10,8 +10,10 @@ interface LoginPageProps {
     };
 }
 
-export default function LoginPage({ params }: LoginPageProps) {
-    const { orgName } = use(params);
+export default function LoginPage() {
+    const params = useParams();
+
+    const orgName = params?.orgName as string;
     const { login, isAuthenticated, isLoading } = useAuth();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
