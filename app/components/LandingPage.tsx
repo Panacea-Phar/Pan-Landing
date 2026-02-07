@@ -8,19 +8,26 @@ import { Play, Pause, Volume2, Mic } from "lucide-react"; // Install lucide-reac
 export default function LandingPage(): React.JSX.Element {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const audioFileName = "/ElevenLabs_2026-02-07T13_20_56_Viraj - Rich, Confident and Expressive_pvc_sp105_s50_sb75_se0_b_m2.mp3";
+    const audioFileName = "/viraj-rich.mp3";
 
-    const togglePlay = () => {
+    const togglePlay = async () => {
         if (audioRef.current) {
-            if (isPlaying) {
-                audioRef.current.pause();
-            } else {
-                audioRef.current.play();
+            try {
+                if (isPlaying) {
+                    audioRef.current.pause();
+                    setIsPlaying(false);
+                } else {
+                    // Play returns a promise, we should await it
+                    await audioRef.current.play();
+                    setIsPlaying(true);
+                }
+            } catch (error) {
+                console.error("Playback failed:", error);
+                // This happens if the audio file is missing or browser blocks it
+                setIsPlaying(false);
             }
-            setIsPlaying(!isPlaying);
         }
     };
-
     return (
         <div className="min-h-screen bg-white">
             <Navbar />
@@ -31,7 +38,7 @@ export default function LandingPage(): React.JSX.Element {
 
                 <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="grid gap-16 lg:grid-cols-2 lg:gap-12 items-center">
-                        
+
                         {/* Left Column - Rebranded Content */}
                         <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
                             <div className="mb-8">
@@ -49,8 +56,8 @@ export default function LandingPage(): React.JSX.Element {
                             </h1>
 
                             <p className="mt-6 text-lg leading-8 text-slate-600">
-                                Deploy expressive, high-fidelity voice agents in minutes. 
-                                From customer support to immersive storytelling, PanAI 
+                                Deploy expressive, high-fidelity voice agents in minutes.
+                                From customer support to immersive storytelling, PanAI
                                 delivers the world&apos;s most realistic speech synthesis.
                             </p>
 
@@ -111,10 +118,10 @@ export default function LandingPage(): React.JSX.Element {
                                     {/* Waveform Visualization Placeholder */}
                                     <div className="flex items-end justify-between h-24 gap-1 mb-8">
                                         {[...Array(20)].map((_, i) => (
-                                            <div 
-                                                key={i} 
+                                            <div
+                                                key={i}
                                                 className={`w-full bg-emerald-500/20 rounded-full transition-all duration-300 ${isPlaying ? 'bg-emerald-500' : 'bg-slate-200'}`}
-                                                style={{ 
+                                                style={{
                                                     height: isPlaying ? `${Math.random() * 100}%` : '15%',
                                                     transitionDelay: `${i * 0.05}s`
                                                 }}
@@ -122,13 +129,13 @@ export default function LandingPage(): React.JSX.Element {
                                         ))}
                                     </div>
 
-                                    <audio 
-                                        ref={audioRef} 
-                                        src={audioFileName} 
+                                    <audio
+                                        ref={audioRef}
+                                        src={audioFileName}
                                         onEnded={() => setIsPlaying(false)}
                                     />
 
-                                    <button 
+                                    <button
                                         onClick={togglePlay}
                                         className="w-full flex items-center justify-center space-x-3 py-4 rounded-xl bg-slate-900 text-white hover:bg-emerald-600 transition-colors group"
                                     >
@@ -154,7 +161,7 @@ export default function LandingPage(): React.JSX.Element {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             {/* Decorative blur */}
                             <div className="absolute -z-10 -bottom-6 -right-6 h-64 w-64 rounded-full bg-emerald-400 opacity-20 blur-3xl"></div>
                         </div>
