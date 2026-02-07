@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
 import Navbar from "./Navbar";
 import { Play, Pause, Volume2, Mic } from "lucide-react"; // Install lucide-react if not present
@@ -51,7 +51,7 @@ export default function LandingPage(): React.JSX.Element {
                             <p className="mt-6 text-lg leading-8 text-slate-600">
                                 Deploy expressive, high-fidelity voice agents in minutes. 
                                 From customer support to immersive storytelling, PanAI 
-                                delivers the world's most realistic speech synthesis.
+                                delivers the world&apos;s most realistic speech synthesis.
                             </p>
 
                             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
