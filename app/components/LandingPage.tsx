@@ -1,9 +1,26 @@
 "use client";
 
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "./Navbar";
+import { Play, Pause, Volume2, Mic } from "lucide-react"; // Install lucide-react if not present
 
 export default function LandingPage(): React.JSX.Element {
+    const [isPlaying, setIsPlaying] = useState(false);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+    const audioFileName = "/ElevenLabs_2026-02-07T13_20_56_Viraj - Rich, Confident and Expressive_pvc_sp105_s50_sb75_se0_b_m2.mp3";
+
+    const togglePlay = () => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.pause();
+            } else {
+                audioRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        }
+    };
+
     return (
         <div className="min-h-screen bg-white">
             <Navbar />
@@ -13,125 +30,147 @@ export default function LandingPage(): React.JSX.Element {
                 <div className="absolute inset-0 bg-grid-slate-100 [mask-image:linear-gradient(0deg,white,rgba(255,255,255,0.6))]"></div>
 
                 <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid gap-16 lg:grid-cols-2 lg:gap-8 items-center">
-                        {/* Left Column - Content */}
+                    <div className="grid gap-16 lg:grid-cols-2 lg:gap-12 items-center">
+                        
+                        {/* Left Column - Rebranded Content */}
                         <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
                             <div className="mb-8">
                                 <div className="inline-flex items-center rounded-full bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-700 ring-1 ring-emerald-600/10">
-                                    <span className="mr-2 h-2 w-2 rounded-full bg-emerald-400"></span>
-                                    Introducing PanAI
+                                    <span className="mr-2 h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    Next-Gen Voice Synthesis
                                 </div>
                             </div>
 
                             <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl lg:text-5xl xl:text-6xl">
-                                24/7 pharmacy calls,{" "}
+                                AI voices that sound{" "}
                                 <span className="text-emerald-600">
-                                    simplified
+                                    undeniably human
                                 </span>
                             </h1>
 
                             <p className="mt-6 text-lg leading-8 text-slate-600">
-                                PanAI answers patient calls, processes OTC and
-                                prescription requests, and ensures nothing falls
-                                through the cracks — day or night. Built for
-                                modern pharmacies.
+                                Deploy expressive, high-fidelity voice agents in minutes. 
+                                From customer support to immersive storytelling, PanAI 
+                                delivers the world's most realistic speech synthesis.
                             </p>
 
                             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                                 <Link
-                                    href="/sales"
-                                    className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-8 py-3 text-base font-semibold text-white shadow-sm hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 transition-all duration-200"
+                                    href="/signup"
+                                    className="inline-flex items-center justify-center rounded-lg bg-emerald-600 px-8 py-3 text-base font-semibold text-white shadow-lg hover:bg-emerald-700 transition-all duration-200 hover:scale-105"
                                 >
-                                    Start Free Trial
+                                    Get Started Free
                                 </Link>
-                                <Link
-                                    href="#demo"
+                                <button
+                                    onClick={togglePlay}
                                     className="inline-flex items-center justify-center rounded-lg bg-white px-8 py-3 text-base font-semibold text-slate-900 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50 transition-all duration-200"
                                 >
-                                    Watch Demo
-                                </Link>
+                                    {isPlaying ? <Pause className="mr-2 h-4 w-4" /> : <Play className="mr-2 h-4 w-4" />}
+                                    {isPlaying ? "Pause Demo" : "Listen to Viraj"}
+                                </button>
                             </div>
 
                             {/* Stats */}
-                            <div className="mt-12 grid grid-cols-3 gap-8 sm:gap-12">
+                            <div className="mt-12 grid grid-cols-3 gap-8">
                                 <div className="text-center lg:text-left">
-                                    <div className="text-3xl font-bold text-slate-900">
-                                        24/7
-                                    </div>
-                                    <div className="text-sm text-slate-600">
-                                        Call Coverage
-                                    </div>
+                                    <div className="text-2xl font-bold text-slate-900">&lt;150ms</div>
+                                    <div className="text-sm text-slate-600">Ultra-low Latency</div>
                                 </div>
                                 <div className="text-center lg:text-left">
-                                    <div className="text-3xl font-bold text-slate-900">
-                                        100%
-                                    </div>
-                                    <div className="text-sm text-slate-600">
-                                        HIPAA Compliant
-                                    </div>
+                                    <div className="text-2xl font-bold text-slate-900">29+</div>
+                                    <div className="text-sm text-slate-600">Languages</div>
                                 </div>
                                 <div className="text-center lg:text-left">
-                                    <div className="text-3xl font-bold text-slate-900">
-                                        5min
-                                    </div>
-                                    <div className="text-sm text-slate-600">
-                                        Average Setup
-                                    </div>
+                                    <div className="text-2xl font-bold text-slate-900">99%</div>
+                                    <div className="text-sm text-slate-600">Emotion Accuracy</div>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Right Column - Visual */}
+                        {/* Right Column - The Interactive Demo Card */}
                         <div className="relative lg:ml-10">
-                            <div className="relative rounded-2xl bg-white p-8 shadow-2xl ring-1 ring-slate-900/5">
-                                <div className="absolute -top-4 -left-4 h-72 w-72 rounded-full bg-gradient-to-r from-emerald-400 to-emerald-600 opacity-20 blur-3xl"></div>
-                                <div className="relative">
-                                    <div className="mb-6 flex items-center justify-between">
-                                        <div className="h-3 w-32 rounded-full bg-slate-200"></div>
-                                        <div className="h-3 w-16 rounded-full bg-emerald-200"></div>
+                            <div className="relative rounded-3xl bg-slate-900 p-1 shadow-2xl ring-1 ring-slate-900/5 overflow-hidden">
+                                <div className="bg-white rounded-[22px] p-8">
+                                    <div className="flex items-center justify-between mb-8">
+                                        <div className="flex items-center space-x-3">
+                                            <div className="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center">
+                                                <Mic className="h-5 w-5 text-emerald-600" />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-sm font-bold text-slate-900">Voice Preview</h3>
+                                                <p className="text-xs text-slate-500">Model: Viraj (Expressive)</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex space-x-1">
+                                            {[...Array(3)].map((_, i) => (
+                                                <div key={i} className={`h-1 w-1 rounded-full ${isPlaying ? 'bg-emerald-500 animate-bounce' : 'bg-slate-300'}`} style={{ animationDelay: `${i * 0.1}s` }} />
+                                            ))}
+                                        </div>
                                     </div>
 
-                                    <div className="space-y-4">
-                                        {[
-                                            "Answer patient calls automatically",
-                                            "Process OTC orders instantly",
-                                            "Handle prescription refills",
-                                            "Route to staff when needed",
-                                        ].map((text, index) => (
-                                            <div
-                                                key={index}
-                                                className="flex items-center rounded-lg border border-slate-200 bg-slate-50 p-4 transition-all hover:bg-slate-100"
-                                            >
-                                                <div className="mr-3 h-6 w-6 rounded-full bg-emerald-100 flex items-center justify-center">
-                                                    <div className="h-2 w-2 rounded-full bg-emerald-600"></div>
-                                                </div>
-                                                <div className="text-sm font-medium text-slate-700">
-                                                    {text}
-                                                </div>
-                                            </div>
+                                    {/* Waveform Visualization Placeholder */}
+                                    <div className="flex items-end justify-between h-24 gap-1 mb-8">
+                                        {[...Array(20)].map((_, i) => (
+                                            <div 
+                                                key={i} 
+                                                className={`w-full bg-emerald-500/20 rounded-full transition-all duration-300 ${isPlaying ? 'bg-emerald-500' : 'bg-slate-200'}`}
+                                                style={{ 
+                                                    height: isPlaying ? `${Math.random() * 100}%` : '15%',
+                                                    transitionDelay: `${i * 0.05}s`
+                                                }}
+                                            />
                                         ))}
+                                    </div>
+
+                                    <audio 
+                                        ref={audioRef} 
+                                        src={audioFileName} 
+                                        onEnded={() => setIsPlaying(false)}
+                                    />
+
+                                    <button 
+                                        onClick={togglePlay}
+                                        className="w-full flex items-center justify-center space-x-3 py-4 rounded-xl bg-slate-900 text-white hover:bg-emerald-600 transition-colors group"
+                                    >
+                                        {isPlaying ? (
+                                            <>
+                                                <Pause className="h-5 w-5 fill-current" />
+                                                <span className="font-semibold">Pause Sample</span>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Play className="h-5 w-5 fill-current" />
+                                                <span className="font-semibold">Play Voice Sample</span>
+                                            </>
+                                        )}
+                                    </button>
+
+                                    <div className="mt-6 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 font-medium">
+                                        <div className="flex items-center">
+                                            <Volume2 className="h-3 w-3 mr-1" />
+                                            44.1kHz / 128kbps
+                                        </div>
+                                        <span>Powered by ElevenLabs</span>
                                     </div>
                                 </div>
                             </div>
+                            
+                            {/* Decorative blur */}
+                            <div className="absolute -z-10 -bottom-6 -right-6 h-64 w-64 rounded-full bg-emerald-400 opacity-20 blur-3xl"></div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Features Section */}
+            {/* Rebranded Features Section */}
             <section id="features" className="py-24 sm:py-32 bg-slate-50">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mx-auto max-w-2xl text-center">
                         <h2 className="text-base font-semibold leading-7 text-emerald-600">
-                            Everything you need
+                            Enterprise Voice Tech
                         </h2>
                         <p className="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                            Built for pharmacy operations
-                        </p>
-                        <p className="mt-6 text-lg leading-8 text-slate-600">
-                            A comprehensive AI assistant designed to streamline
-                            your pharmacy workflow and improve patient
-                            experience.
+                            The future of audio is here
                         </p>
                     </div>
 
@@ -139,56 +178,30 @@ export default function LandingPage(): React.JSX.Element {
                         <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-3">
                             {[
                                 {
-                                    name: "24/7 Call Handling",
-                                    description:
-                                        "Never miss a patient call with round-the-clock AI support that understands pharmacy operations.",
-                                    icon: "📞",
+                                    name: "Emotional Inflection",
+                                    description: "Our AI understands context and adds appropriate emotion, from excitement to empathy.",
+                                    icon: "🎭",
                                 },
                                 {
-                                    name: "OTC Order Processing",
-                                    description:
-                                        "Automatically take and process over-the-counter medication orders with inventory integration.",
-                                    icon: "💊",
+                                    name: "Instant Voice Cloning",
+                                    description: "Clone any voice with just 60 seconds of audio data for perfectly branded experiences.",
+                                    icon: "🧬",
                                 },
                                 {
-                                    name: "Prescription Management",
-                                    description:
-                                        "Handle refill requests, verify patient information, and route approvals to licensed staff.",
-                                    icon: "📋",
-                                },
-                                {
-                                    name: "System Integration",
-                                    description:
-                                        "Seamlessly connects with your existing pharmacy management software and workflows.",
-                                    icon: "🔗",
-                                },
-                                {
-                                    name: "Compliance & Security",
-                                    description:
-                                        "HIPAA-compliant with enterprise-grade security. BAA available for healthcare partnerships.",
-                                    icon: "🔒",
-                                },
-                                {
-                                    name: "Analytics Dashboard",
-                                    description:
-                                        "Track call volume, response times, and operational metrics with detailed reporting.",
-                                    icon: "📊",
+                                    name: "Real-time Conversational",
+                                    description: "Engineered for speed. Our APIs allow for back-and-forth talk without awkward pauses.",
+                                    icon: "⚡",
                                 },
                             ].map((feature) => (
-                                <div
-                                    key={feature.name}
-                                    className="flex flex-col"
-                                >
-                                    <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-600 text-xl">
+                                <div key={feature.name} className="flex flex-col bg-white p-8 rounded-2xl shadow-sm border border-slate-100 transition-hover hover:shadow-md">
+                                    <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-600 text-xl shadow-lg shadow-emerald-200">
                                         {feature.icon}
                                     </div>
                                     <dt className="text-base font-semibold leading-7 text-slate-900">
                                         {feature.name}
                                     </dt>
-                                    <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-slate-600">
-                                        <p className="flex-auto">
-                                            {feature.description}
-                                        </p>
+                                    <dd className="mt-1 text-base leading-7 text-slate-600">
+                                        {feature.description}
                                     </dd>
                                 </div>
                             ))}
@@ -196,149 +209,6 @@ export default function LandingPage(): React.JSX.Element {
                     </div>
                 </div>
             </section>
-
-            {/* Compliance Section */}
-            <section id="compliance" className="py-24 sm:py-32">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="mx-auto max-w-2xl lg:mx-0">
-                        <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                            Enterprise-grade compliance
-                        </h2>
-                        <p className="mt-6 text-lg leading-8 text-slate-600">
-                            Built with pharmacy regulations in mind. PanAI meets
-                            all industry standards for healthcare technology.
-                        </p>
-                    </div>
-
-                    <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2">
-                        <div className="rounded-2xl bg-white p-8 shadow-lg ring-1 ring-slate-200">
-                            <h3 className="text-xl font-semibold text-slate-900">
-                                HIPAA Compliance
-                            </h3>
-                            <p className="mt-4 text-slate-600">
-                                Full HIPAA compliance with encrypted data
-                                transmission, secure storage, and comprehensive
-                                audit trails.
-                            </p>
-                            <div className="mt-6 flex flex-wrap gap-2">
-                                <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">
-                                    Encrypted
-                                </span>
-                                <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">
-                                    Audit Logs
-                                </span>
-                                <span className="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-sm font-medium text-emerald-700">
-                                    BAA Ready
-                                </span>
-                            </div>
-                        </div>
-
-                        <div className="rounded-2xl bg-white p-8 shadow-lg ring-1 ring-slate-200">
-                            <h3 className="text-xl font-semibold text-slate-900">
-                                Pharmacy Standards
-                            </h3>
-                            <p className="mt-4 text-slate-600">
-                                Designed to meet state and federal pharmacy
-                                regulations with built-in safeguards and
-                                compliance checks.
-                            </p>
-                            <div className="mt-6 flex flex-wrap gap-2">
-                                <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">
-                                    FDA Compliant
-                                </span>
-                                <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">
-                                    State Licensed
-                                </span>
-                                <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700">
-                                    SOC 2 Type II
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* CTA Section */}
-            <section id="pricing" className="bg-emerald-600 py-16 sm:py-24">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="mx-auto max-w-2xl text-center">
-                        <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                            Ready to transform your pharmacy?
-                        </h2>
-                        <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-emerald-100">
-                            Join the growing number of pharmacies using PanAI to
-                            improve patient care and streamline operations.
-                        </p>
-                        <div className="mt-10 flex items-center justify-center gap-x-6">
-                            <Link
-                                href="/sales"
-                                className="rounded-lg bg-white px-8 py-3 text-base font-semibold text-emerald-600 shadow-sm hover:bg-emerald-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white transition-all duration-200"
-                            >
-                                Get Started Today
-                            </Link>
-                            <Link
-                                href="/sales"
-                                className="text-base font-semibold leading-6 text-white hover:text-emerald-100 transition-colors duration-200"
-                            >
-                                Schedule Demo <span aria-hidden="true">→</span>
-                            </Link>
-                        </div>
-                        <p className="mt-6 text-sm text-emerald-200">
-                            Free 30-day trial • No setup fees • Cancel anytimes
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Footer */}
-            <footer className="bg-slate-50">
-                <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                            {/*<div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-emerald-600 to-emerald-700">
-                                <span className="text-xs font-bold text-white">
-                                    P
-                                </span>
-                            </div>*/}
-                            {/*<div>
-                                <div className="text-sm font-semibold text-slate-900">
-                                    Panacea
-                                </div>
-                                <div className="text-xs text-slate-500">
-                                    © {new Date().getFullYear()} PanAI, Inc.
-                                </div>
-                            </div>*/}
-                        </div>
-
-                        <div className="flex space-x-6">
-                            <Link
-                                href="/#features"
-                                className="text-sm text-slate-600 hover:text-slate-900 transition-colors"
-                            >
-                                Features
-                            </Link>
-                            <Link
-                                href="/#compliance"
-                                className="text-sm text-slate-600 hover:text-slate-900 transition-colors"
-                            >
-                                Compliance
-                            </Link>
-                            <Link
-                                href="/#pricing"
-                                className="text-sm text-slate-600 hover:text-slate-900 transition-colors"
-                            >
-                                Pricing
-                            </Link>
-                            <Link
-                                href="/sales"
-                                className="text-sm text-slate-600 hover:text-slate-900 transition-colors"
-                            >
-                                Contact
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </footer>
         </div>
     );
 }
