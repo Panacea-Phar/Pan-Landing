@@ -8,7 +8,7 @@ import { Play, Pause, Volume2, Mic } from "lucide-react"; // Install lucide-reac
 export default function LandingPage(): React.JSX.Element {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-    const audioFileName = "/viraj-rich.mp3";
+    const audioFileName = "/panai-final-demo.m4a";
 
     const togglePlay = async () => {
         if (audioRef.current) {
